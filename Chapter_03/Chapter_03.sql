@@ -31,6 +31,7 @@ CREATE TABLE char_data_types(
     text_column text
 );
 
+
 INSERT INTO char_data_types
 VALUES  ('abc', 'abc', 'abc'),
         ('defghi', 'defghi', 'defghi');
@@ -137,7 +138,7 @@ SELECT numeric_column,
 FROM number_data_types;
 
 -- Returns error
-SELECT CAST(char_column AS integer) FROM char_data_types;
+-- SELECT CAST(char_column AS integer) FROM char_data_types;
 
 ---------------------------------------------------------
 -- CAST Shortcut Notation
