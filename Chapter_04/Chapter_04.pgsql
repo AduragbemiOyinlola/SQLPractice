@@ -156,7 +156,7 @@ CREATE TABLE supervisor_salaries (
 );
 
 
-COPY supervisor_salaries (town, supervisor, salary) -- tells psql to only look for data to fill those columns when it reads the CSV
+COPY supervisor_salaries (town, supervisor, salary) -- tells psql to only look for data to fill the present columns when it reads the CSV.
 FROM 'C:\Users\HP - PC\Documents\PracticalSql\Chapter_04\supervisor_salaries.csv'
 WITH (FORMAT CSV, HEADER);
 */
@@ -168,4 +168,3 @@ FROM supervisor_salaries;
 -- Adding a Default Value to a Column During Import
 ---------------------------------------------------
 
-DELETE FROM supervisor_salaries;
