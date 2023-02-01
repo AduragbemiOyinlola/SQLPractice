@@ -36,12 +36,9 @@ INSERT INTO char_data_types
 VALUES  ('abc', 'abc', 'abc'),
         ('defghi', 'defghi', 'defghi');
 
-COPY char_data_types TO 'C:\Users\HP - PC\Documents\SQLPratice\Chapter_03\typetest.txt'
+COPY char_data_types TO 'C:\Directory\typetest.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER '|');
 
-
--- source for solution to error message "could not open file 
--- "C:\Users\HP - PC\Documents\SQLPratice\Chapter_03\typetest.txt" for writing: Permission denied"
 
 -------------------------------------------------------------------------
 -- Numbers
