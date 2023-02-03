@@ -6,7 +6,7 @@
 -- Creating the us_counties_2010 Table
 ----------------------------------------
 
-/*
+
 CREATE TABLE us_counties_2010 (
     geo_name varchar(90),                    -- Name of the geography
     state_us_abbreviation varchar(2),        -- State/U.S. abbreviation
@@ -111,7 +111,7 @@ CREATE TABLE us_counties_2010 (
     h0010002 integer,   -- Occupied
     h0010003 integer    -- Vacant
 );
-*/
+
 ------------------------------------------------------------------------
 -- The code used in creating in the table is gotten from the github repo
 -- of the author
@@ -121,11 +121,11 @@ CREATE TABLE us_counties_2010 (
 -- Performing the Census Import With COPY
 ------------------------------------------
 
-/*
+
 COPY us_counties_2010
-FROM 'C:/Users/HP - PC/Documents/PracticalSql/Chapter_04/us_counties_2010.csv'
+FROM 'C:|YourDirectory|us_counties_2010.csv'
 WITH (FORMAT CSV, HEADER);
-*/
+
 
 SELECT *
 FROM us_counties_2010
@@ -144,7 +144,7 @@ LIMIT 5;
 --------------------------------------------
 -- Importing a Subset of Columns with COPY
 --------------------------------------------
-/*
+
 
 CREATE TABLE supervisor_salaries (
     town varchar(30),
@@ -155,11 +155,10 @@ CREATE TABLE supervisor_salaries (
     benefits money
 );
 
-
 COPY supervisor_salaries (town, supervisor, salary) -- tells psql to only look for data to fill the present columns when it reads the CSV.
-FROM 'C:\Users\HP - PC\Documents\PracticalSql\Chapter_04\supervisor_salaries.csv'
+FROM 'C:|YourDirectory|supervisor_salaries.csv'
 WITH (FORMAT CSV, HEADER);
-*/
+
 
 SELECT *
 FROM supervisor_salaries;
@@ -168,3 +167,51 @@ FROM supervisor_salaries;
 -- Adding a Default Value to a Column During Import
 ---------------------------------------------------
 
+DELETE FROM supervisor_salaries; -- clears data in the table
+
+CREATE TEMPORARY TABLE supervisor_salaries_temp(LIKE supervisor_salaries); 
+-- the code above creates temporary table like the supervisor_salaries table
+
+COPY supervisor_salaries_temp(town, supervisor, salary)
+FROM 'C:|YourDirectory|supervisor_salaries.csv'
+WITH (FORMAT CSV, HEADER);
+
+INSERT INTO supervisor_salaries_temp(town, county, supervisor, salary)
+SELECT town, 'Some county', supervisor, salary
+FROM supervisor_salaries_temp;
+
+SELECT * FROM supervisor_salaries_temp;
+
+DROP TABLE supervisor_salaries_temp;
+
+---------------------------------------
+-- Using COPY to Export Data
+---------------------------------------
+
+---------------------------
+-- Exporting All Data
+---------------------------
+
+COPY us_counties_2010
+TO 'C:|YourDirectory|us_counties_2010.txt'
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
+
+-----------------------------------
+-- Exporting Particular columns
+-----------------------------------
+
+COPY us_counties_2010 (geo_name, internal_point_lat, internal_point_lon) -- this query exports only the columns in the parenthesis
+TO 'C:|YourDirectory|county_lat_lon.txt'
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
+
+
+----------------------------------
+-- Exporting Query Results
+----------------------------------
+COPY (
+    SELECT geo_name, state_us_abbreviation
+    FROM us_counties_2010
+    WHERE geo_name ILIKE '%mill%'
+)
+TO 'C:|YourDirectory|mill_export.txt'
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
