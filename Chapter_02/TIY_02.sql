@@ -15,7 +15,7 @@ ORDER BY school, last_name;
 -- the letter S and who earns more than $40,000.
 -------------------------------------------------------------------------
 
-SELECT first_name
+SELECT first_name, last_name, salary
 FROM teachers
 WHERE first_name LIKE 'S%' AND salary > 40000;
 
